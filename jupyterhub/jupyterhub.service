@@ -1,0 +1,16 @@
+[Unit]
+Description=JupyterHub
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/
+
+# Set the PATH variable to match your conda environment
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/root/.jupyter/start_jupyterhub.sh 
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
