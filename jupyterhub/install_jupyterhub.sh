@@ -7,8 +7,10 @@ apt-get install nodejs npm
 npm install -g configurable-http-proxy
 
 mkdir ~/.jupyterhub
+# add admin & users to jupyterhub_config.py
 wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/jupyterhub_config.py -P ~/.jupyterhub
 wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/start_jupyterhub.sh -P ~/.jupyterhub
+chmod +x ~/.jupyterhub/start_jupyterhub.sh
 wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/jupyterhub.service -O /etc/systemd/system/jupyterhub.service
 
 systemctl daemon-reload
