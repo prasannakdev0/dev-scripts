@@ -5,6 +5,4 @@ c.JupyterHub.port = 8888
 # Set the notebook directory for the spawner
 c.Spawner.notebook_dir = '/'
 
-# edit
-c.Authenticator.admin_users = {}
-c.Authenticator.allowed_users = {}
+# admin_users, allowed_users are set dynamically
