@@ -9,7 +9,7 @@ WorkingDirectory=/
 
 # Set the PATH variable to match your conda environment
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/root/.jupyter/start_jupyterhub.sh 
+ExecStart=/root/.jupyterhub/start_jupyterhub.sh 
 Restart=on-failure
 
 [Install]
