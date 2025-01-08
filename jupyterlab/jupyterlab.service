@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=~/.jupyterlab/start_jupyterlab.sh 
+ExecStart=/bin/bash %h/.jupyterlab/start_jupyterlab.sh 
 Restart=on-failure
 WorkingDirectory=/
 
