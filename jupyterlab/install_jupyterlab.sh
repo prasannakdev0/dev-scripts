@@ -9,6 +9,10 @@ SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd s
 CONDA_ENVS_PATH=/opt/conda/envs
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
+# Set a password for JupyterLab
+echo "Do you want to set a password for JupyterLab? (y/n)"
+read SET_PASSWORD
+
 source /opt/conda/etc/profile.d/conda.sh
 
 # Log message
@@ -54,10 +58,7 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
-# Optional: Set a password for JupyterLab
-echo "Do you want to set a password for JupyterLab? (yes/no)"
-read SET_PASSWORD
-if [ "$SET_PASSWORD" == "yes" ]; then
+if [ "$SET_PASSWORD" == "y" ]; then
     echo "Setting a password for JupyterLab..."
     jupyter server password
     if [ $? -eq 0 ]; then
@@ -79,6 +80,7 @@ echo "Downloading JupyterHub configuration files..."
 wget -q $BASE_URL/jupyterlab/jupyterlab_config.py -P $CONFIG_DIR
 wget -q $BASE_URL/jupyterlab/start_jupyterlab.sh -P $CONFIG_DIR
 chmod +x $CONFIG_DIR/start_jupyterlab.sh
+
 if [ $? -eq 0 ]; then
     echo "Configuration files downloaded successfully."
 else
