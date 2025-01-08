@@ -73,12 +73,6 @@ fi
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."
 mkdir -p $CONFIG_DIR
-if [ $? -eq 0 ]; then
-    echo "Directory '$CONFIG_DIR' created successfully."
-else
-    echo "Failed to create directory '$CONFIG_DIR'. Exiting..."
-    exit 1
-fi
 
 # Download configuration files
 echo "Downloading JupyterHub configuration files..."
