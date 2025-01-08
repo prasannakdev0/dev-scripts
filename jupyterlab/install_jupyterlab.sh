@@ -25,7 +25,7 @@ fi
 # Check if the conda environment already exists
 echo "Checking if conda environment '$CONDA_ENV_NAME' exists..."
 
-if conda env list | grep -q "$CONDA_ENV_NAME"; then
+if conda env list | grep "$CONDA_ENV_NAME"; then
     echo "Conda environment '$CONDA_ENV_NAME' already exists."
 else
     echo "Creating conda environment '$CONDA_ENV_NAME' with Python $PYTHON_VERSION..."
