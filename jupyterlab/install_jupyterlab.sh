@@ -9,6 +9,8 @@ SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd s
 CONDA_ENVS_PATH=/opt/conda/envs
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
+source /opt/conda/etc/profile.d/conda.sh
+
 # Log message
 echo "Starting JupyterLab installation and user-level systemd setup..."
 
