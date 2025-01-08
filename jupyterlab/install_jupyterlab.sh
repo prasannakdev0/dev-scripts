@@ -29,7 +29,7 @@ if conda env list | grep "$CONDA_ENV_NAME"; then
     echo "Conda environment '$CONDA_ENV_NAME' already exists."
 else
     echo "Creating conda environment '$CONDA_ENV_NAME' with Python $PYTHON_VERSION..."
-    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y
+    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y --quiet
     if [ $? -eq 0 ]; then
         echo "Conda environment '$CONDA_ENV_NAME' created successfully."
     else
