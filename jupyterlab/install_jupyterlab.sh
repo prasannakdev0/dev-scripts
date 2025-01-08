@@ -9,6 +9,8 @@ SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd s
 CONDA_ENVS_PATH=/opt/conda/envs
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
+source /opt/conda/etc/profile.d/conda.sh
+
 # Log message
 echo "Starting JupyterLab installation and user-level systemd setup..."
 
@@ -23,11 +25,11 @@ fi
 # Check if the conda environment already exists
 echo "Checking if conda environment '$CONDA_ENV_NAME' exists..."
 
-if conda env list | grep -q "$CONDA_ENV_NAME"; then
+if conda env list | grep "$CONDA_ENV_NAME"; then
     echo "Conda environment '$CONDA_ENV_NAME' already exists."
 else
     echo "Creating conda environment '$CONDA_ENV_NAME' with Python $PYTHON_VERSION..."
-    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y
+    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y --quiet
     if [ $? -eq 0 ]; then
         echo "Conda environment '$CONDA_ENV_NAME' created successfully."
     else
@@ -71,12 +73,6 @@ fi
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."
 mkdir -p $CONFIG_DIR
-if [ $? -eq 0 ]; then
-    echo "Directory '$CONFIG_DIR' created successfully."
-else
-    echo "Failed to create directory '$CONFIG_DIR'. Exiting..."
-    exit 1
-fi
 
 # Download configuration files
 echo "Downloading JupyterHub configuration files..."
