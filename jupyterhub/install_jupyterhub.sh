@@ -4,6 +4,13 @@
 CONDA_ENV_NAME="jupyterhub"            # Name of the conda environment
 PYTHON_VERSION="3.12"                  # Python version for the conda environment
 CONFIG_DIR="$HOME/.jupyterhub"         # Directory for JupyterHub configuration files
+BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
+# ------------------------------------------------------------------------------------------
+# Prompt for admin_users and allowed_users
+echo "Enter admin users (comma-separated):"
+read ADMIN_USERS_INPUT
+echo "Enter allowed users (comma-separated):"
+read ALLOWED_USERS_INPUT
 # ------------------------------------------------------------------------------------------
 # Log message
 echo "Starting JupyterHub installation process..."
@@ -44,8 +51,8 @@ fi
 # Install Node.js and npm if they are not already installed
 if ! command -v node &>/dev/null; then
     echo "Node.js is not installed. Installing Node.js and npm..."
-    sudo apt-get update
-    sudo apt-get install -y nodejs npm
+    apt-get update
+    apt-get install -y nodejs npm
     if [ $? -eq 0 ]; then
         echo "Node.js and npm installed successfully."
     else
@@ -78,8 +85,8 @@ fi
 
 # Download configuration files
 echo "Downloading JupyterHub configuration files..."
-wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/jupyterhub_config.py -P $CONFIG_DIR
-wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/start_jupyterhub.sh -P $CONFIG_DIR
+wget -q $BASE_URL/jupyterhub/jupyterhub_config.py -P $CONFIG_DIR
+wget -q $BASE_URL/jupyterhub/start_jupyterhub.sh -P $CONFIG_DIR
 chmod +x $CONFIG_DIR/start_jupyterhub.sh
 if [ $? -eq 0 ]; then
     echo "Configuration files downloaded successfully."
@@ -87,13 +94,7 @@ else
     echo "Failed to download configuration files. Exiting..."
     exit 1
 fi
-
-# Prompt for admin_users and allowed_users
-echo "Enter admin users (comma-separated):"
-read ADMIN_USERS_INPUT
-echo "Enter allowed users (comma-separated):"
-read ALLOWED_USERS_INPUT
-
+# ------------------------------------------------------------------------------------------
 # Convert comma-separated input into Python set syntax
 ADMIN_USERS_PYTHON_SET=$(echo $ADMIN_USERS_INPUT | sed "s/,/', '/g" | sed "s/^/{'/;s/$/'}/")
 ALLOWED_USERS_PYTHON_SET=$(echo $ALLOWED_USERS_INPUT | sed "s/,/', '/g" | sed "s/^/{'/;s/$/'}/")
@@ -118,10 +119,10 @@ fi
 # Download systemd service file for JupyterHub (requires sudo)
 echo "Downloading systemd service file for JupyterHub..."
 if [ ! -f /etc/systemd/system/jupyterhub.service ]; then
-    sudo wget https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/jupyterhub/jupyterhub.service -O /etc/systemd/system/jupyterhub.service
-    sudo systemctl daemon-reload
-    sudo systemctl enable jupyterhub
-    sudo systemctl start jupyterhub
+    wget -q $BASE_URL/jupyterhub/jupyterhub.service -O /etc/systemd/system/jupyterhub.service
+    systemctl daemon-reload
+    systemctl enable jupyterhub
+    systemctl start jupyterhub
     if [ $? -eq 0 ]; then
         echo "JupyterHub systemd service installed and started successfully."
     else
@@ -133,7 +134,7 @@ else
 fi
 # ------------------------------------------------------------------------------------------
 # check JupyterHub service status
-sudo systemctl status jupyterhub
+systemctl status jupyterhub
 
 # For service logs, use the following:
 # journalctl -u jupyterhub -f
@@ -141,3 +142,4 @@ sudo systemctl status jupyterhub
 echo "JupyterHub installation and setup completed successfully."
 
 # End of script
+# ------------------------------------------------------------------------------------------
