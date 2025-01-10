@@ -1,14 +1,20 @@
-# JupyterLab configuration file
+import random
+import socket
+from pathlib import Path
 
-# Set the IP address to listen on all interfaces
+
+def get_available_port(start=1024, end=65535):
+    while True:
+        port = random.randint(start, end)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            if s.connect_ex(('0.0.0.0', port)) != 0:
+                return port
+
+port = get_available_port()
+c.ServerApp.port = port
 c.ServerApp.ip = '0.0.0.0'
-
-# Set the port to 8888 for JupyterLab
-c.ServerApp.port = 8888
-
-# Disable the launching of the browser upon startup
 c.ServerApp.open_browser = False
-
-# Set the directory for JupyterLab notebooks
-# You can modify this to be user-specific or a more secure directory
 c.ServerApp.notebook_dir = '/'
+
+# Save the URL with the selected port to a file
+Path('~/.jupyterlab/jupyterlab_port.txt').expanduser().write_text(f"PORT={port}\n")

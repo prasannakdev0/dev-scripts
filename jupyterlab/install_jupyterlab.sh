@@ -9,9 +9,9 @@ SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd s
 CONDA_ENVS_PATH=/opt/conda/envs
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
-# Set a password for JupyterLab
-echo "Do you want to set a password for JupyterLab? (y/n)"
-read SET_PASSWORD
+# # Set a password for JupyterLab
+# echo "Do you want to set a password for JupyterLab? (y/n)"
+# read SET_PASSWORD
 
 source /opt/conda/etc/profile.d/conda.sh
 
@@ -33,7 +33,7 @@ if conda env list | grep "$CONDA_ENV_NAME"; then
     echo "Conda environment '$CONDA_ENV_NAME' already exists."
 else
     echo "Creating conda environment '$CONDA_ENV_NAME' with Python $PYTHON_VERSION..."
-    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y --quiet
+    conda create -n $CONDA_ENV_NAME python=$PYTHON_VERSION -y -q
     if [ $? -eq 0 ]; then
         echo "Conda environment '$CONDA_ENV_NAME' created successfully."
     else
@@ -49,7 +49,7 @@ conda activate $CONDA_ENV_NAME
 
 # Use pip from the active conda environment to install JupyterLab
 echo "Installing JupyterLab using pip from the conda environment..."
-$CONDA_PREFIX/bin/pip install jupyterlab
+$CONDA_PREFIX/bin/pip -q install jupyterlab
 if [ $? -eq 0 ]; then
     echo "JupyterLab installed successfully."
 else
@@ -58,18 +58,18 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
-if [ "$SET_PASSWORD" == "y" ]; then
-    echo "Setting a password for JupyterLab..."
-    jupyter server password
-    if [ $? -eq 0 ]; then
-        echo "Password set successfully."
-    else
-        echo "Failed to set password. Exiting..."
-        exit 1
-    fi
-else
-    echo "Skipping password setup."
-fi
+# if [ "$SET_PASSWORD" == "y" ]; then
+#     echo "Setting a password for JupyterLab..."
+#     jupyter server password
+#     if [ $? -eq 0 ]; then
+#         echo "Password set successfully."
+#     else
+#         echo "Failed to set password. Exiting..."
+#         exit 1
+#     fi
+# else
+#     echo "Skipping password setup."
+# fi
 # ------------------------------------------------------------------------------------------
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."
@@ -117,12 +117,33 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
+# Wait until the port file is created
+while [ ! -f "$CONFIG_DIR/jupyterlab_port.txt" ]; do
+    echo "Waiting for the port file to be created..."
+    sleep 1
+done
+
+
+# Read the port from the file
+PORT_FILE="$CONFIG_DIR/jupyterlab_port.txt"
+PORT=$(grep "PORT=" "$PORT_FILE" | awk -F'=' '{print $2}')
+
+# Display the JupyterLab URL to the user
+echo "JupyterLab is accessible at: port:$PORT"
+
+# ------------------------------------------------------------------------------------------
 # Print helpful information
 echo "JupyterLab is now installed and running as a user-level systemd service."
+
 echo "To check the status of the service, use:"
 echo "    systemctl --user status jupyterlab.service"
+
 echo "To restart the service, use:"
 echo "    systemctl --user restart jupyterlab.service"
+
+echo "To stop the service, use:"
+echo "    systemctl --user stop jupyterlab.service"
+
 echo "To view logs, use:"
 echo "    journalctl --user -u jupyterlab -f"
 # ------------------------------------------------------------------------------------------
