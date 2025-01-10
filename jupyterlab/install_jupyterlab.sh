@@ -5,8 +5,6 @@ CONDA_ENV_NAME="jupyterlab"            # Name of the conda environment
 PYTHON_VERSION="3.12"                  # Python version for the conda environment
 CONFIG_DIR="$HOME/.jupyterlab"            # Directory for Jupyter configuration files
 SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd service file
-# Temporarily set the CONDA_ENVS_PATH for this script only so condarc is ignored
-
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
 # # Set a password for JupyterLab
@@ -44,12 +42,12 @@ fi
 
 # Activate the environment
 echo "Activating the conda environment '$CONDA_ENV_NAME'..."
-source $(conda info --base)/etc/profile.d/conda.sh
 conda activate $CONDA_ENV_NAME
 
 # Use pip from the active conda environment to install JupyterLab
 echo "Installing JupyterLab using pip from the conda environment..."
-$CONDA_PREFIX/bin/pip -q install jupyterlab
+python -m pip -q install jupyterlab
+
 if [ $? -eq 0 ]; then
     echo "JupyterLab installed successfully."
 else
