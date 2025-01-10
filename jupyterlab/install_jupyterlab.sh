@@ -65,6 +65,7 @@ fi
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."
 mkdir -p $CONFIG_DIR
+rm -rf $CONFIG_DIR/*
 
 # Download configuration files
 echo "Downloading JupyterHub configuration files..."
