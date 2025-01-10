@@ -7,10 +7,6 @@ CONFIG_DIR="$HOME/.jupyterlab"            # Directory for Jupyter configuration 
 SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd service file
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
-# # Set a password for JupyterLab
-# echo "Do you want to set a password for JupyterLab? (y/n)"
-# read SET_PASSWORD
-# ------------------------------------------------------------------------------------------
 source /opt/conda/etc/profile.d/conda.sh
 
 # Log message
@@ -43,7 +39,7 @@ fi
 # Activate the environment
 echo "Activating the conda environment '$CONDA_ENV_NAME'..."
 conda activate $CONDA_ENV_NAME
-
+# ------------------------------------------------------------------------------------------
 # Use pip from the active conda environment to install JupyterLab
 echo "Installing JupyterLab using pip from the conda environment..."
 python -m pip -q install jupyterlab
@@ -56,18 +52,15 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
-# if [ "$SET_PASSWORD" == "y" ]; then
-#     echo "Setting a password for JupyterLab..."
-#     jupyter server password
-#     if [ $? -eq 0 ]; then
-#         echo "Password set successfully."
-#     else
-#         echo "Failed to set password. Exiting..."
-#         exit 1
-#     fi
-# else
-#     echo "Skipping password setup."
-# fi
+# Setup password
+echo "Setting a password for JupyterLab..."
+jupyter server password
+if [ $? -eq 0 ]; then
+    echo "Password set successfully."
+else
+    echo "Failed to set password. Exiting..."
+    exit 1
+fi
 # ------------------------------------------------------------------------------------------
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."
@@ -97,6 +90,7 @@ wget -q $BASE_URL/jupyterlab/jupyterlab.service -O $SYSTEMD_SERVICE_FILE
 echo "Reloading systemd and enabling the JupyterLab service..."
 systemctl --user daemon-reload
 systemctl --user enable jupyterlab.service
+
 if [ $? -eq 0 ]; then
     echo "JupyterLab service enabled successfully."
 else
@@ -107,6 +101,7 @@ fi
 # Start the service
 echo "Starting JupyterLab systemd service..."
 systemctl --user start jupyterlab.service
+
 if [ $? -eq 0 ]; then
     echo "JupyterLab service started successfully."
 else
@@ -128,7 +123,6 @@ PORT=$(grep "PORT=" "$PORT_FILE" | awk -F'=' '{print $2}')
 
 # Display the JupyterLab URL to the user
 echo "JupyterLab is accessible at: port:$PORT"
-
 # ------------------------------------------------------------------------------------------
 # Print helpful information
 echo "JupyterLab is now installed and running as a user-level systemd service."
