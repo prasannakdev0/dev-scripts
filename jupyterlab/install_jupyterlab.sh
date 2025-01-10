@@ -1,4 +1,4 @@
-#!/bin/bash --login
+#!/bin/bash
 
 # Define variables
 CONDA_ENV_NAME="jupyterlab"            # Name of the conda environment
@@ -6,13 +6,13 @@ PYTHON_VERSION="3.12"                  # Python version for the conda environmen
 CONFIG_DIR="$HOME/.jupyterlab"            # Directory for Jupyter configuration files
 SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd service file
 # Temporarily set the CONDA_ENVS_PATH for this script only so condarc is ignored
-CONDA_ENVS_PATH=/opt/conda/envs
+
 BASE_URL="https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main"
 # ------------------------------------------------------------------------------------------
 # # Set a password for JupyterLab
 # echo "Do you want to set a password for JupyterLab? (y/n)"
 # read SET_PASSWORD
-
+# ------------------------------------------------------------------------------------------
 source /opt/conda/etc/profile.d/conda.sh
 
 # Log message
@@ -77,8 +77,8 @@ mkdir -p $CONFIG_DIR
 
 # Download configuration files
 echo "Downloading JupyterHub configuration files..."
-wget -q $BASE_URL/jupyterlab/jupyterlab_config.py -P $CONFIG_DIR
-wget -q $BASE_URL/jupyterlab/start_jupyterlab.sh -P $CONFIG_DIR
+wget -q $BASE_URL/jupyterlab/jupyterlab_config.py -O $CONFIG_DIR/jupyterlab_config.py
+wget -q $BASE_URL/jupyterlab/start_jupyterlab.sh -O $CONFIG_DIR/start_jupyterlab.sh
 chmod +x $CONFIG_DIR/start_jupyterlab.sh
 
 if [ $? -eq 0 ]; then
