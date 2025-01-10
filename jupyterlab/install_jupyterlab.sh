@@ -52,15 +52,15 @@ else
 fi
 
 # ------------------------------------------------------------------------------------------
-# Setup password
-echo "Setting a password for JupyterLab..."
-jupyter server password
-if [ $? -eq 0 ]; then
-    echo "Password set successfully."
-else
-    echo "Failed to set password. Exiting..."
-    exit 1
-fi
+# # Setup password
+# echo "Setting a password for JupyterLab..."
+# jupyter server password
+# if [ $? -eq 0 ]; then
+#     echo "Password set successfully."
+# else
+#     echo "Failed to set password. Exiting..."
+#     exit 1
+# fi
 # ------------------------------------------------------------------------------------------
 # Create the necessary directory for Jupyter configuration
 echo "Creating configuration directory at $CONFIG_DIR..."

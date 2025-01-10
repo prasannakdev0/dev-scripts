@@ -15,6 +15,10 @@ c.ServerApp.port = port
 c.ServerApp.ip = '0.0.0.0'
 c.ServerApp.open_browser = False
 c.ServerApp.notebook_dir = '/'
+c.ServerApp.token = ''
+c.ServerApp.password = ''
+c.ServerApp.disable_check_xsrf = True
+
 
 # Save the URL with the selected port to a file
 Path('~/.jupyterlab/jupyterlab_port.txt').expanduser().write_text(f"PORT={port}\n")
