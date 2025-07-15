@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define variables
-CONDA_ENV_NAME="jupyterlab"            # Name of the conda environment
+CONDA_ENV_NAME="__jupyterlab"            # Name of the conda environment
 PYTHON_VERSION="3.12"                  # Python version for the conda environment
 CONFIG_DIR="$HOME/.jupyterlab"            # Directory for Jupyter configuration files
 SYSTEMD_SERVICE_FILE="$HOME/.config/systemd/user/jupyterlab.service" # Systemd service file
