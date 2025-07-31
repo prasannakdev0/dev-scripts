@@ -1,5 +1,0 @@
-envs_dirs:
-  - /disk-1/miniconda3/envs
-pkgs_dirs:
-  - /disk-1/miniconda3/pkgs
-  

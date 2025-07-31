@@ -4,6 +4,3 @@ wget -q https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/m
 ```
 
 2. Place `.condarc` in $HOME. Update `envs_dirs`, `pkgs_dirs` to valid directory paths.
-```
-wget -q https://raw.githubusercontent.com/prasannakdev0/dev-scripts/refs/heads/main/conda/.condarc -P ~/
-```
