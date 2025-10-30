@@ -3,12 +3,11 @@ import socket
 from pathlib import Path
 
 
-def get_available_port(start=1024, end=65535):
-    while True:
-        port = random.randint(start, end)
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            if s.connect_ex(('0.0.0.0', port)) != 0:
-                return port
+def get_available_port():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))  # let OS choose a free port
+        return s.getsockname()[1]
+
 
 port = get_available_port()
 c.ServerApp.port = port
